@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../terraform-provider-github/website/docs/d",
+			"name": "provider/aws/data-sources"
+		},
+		{
+			"path": "../terraform-provider-github/website/docs/r",
+			"name": "provider/aws/resources"
+		},
+		{
+			"path": "../terraform/website/docs/language/tests",
+			"name": "terraform/tests"
+		},
+		{
+			"path": "../terraform/website/docs/language/syntax",
+			"name": "terraform/syntax"
+		}
+	],
+	"settings": {
+		
+	}
+}
