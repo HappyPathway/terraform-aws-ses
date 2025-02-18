@@ -1,0 +1,45 @@
+name: "Terraform Doc"
+
+on:
+  pull_request:
+
+env:
+  GITHUB_OWNER: ${{ vars.GH_ORG }}
+  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+  GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+  TF_WORKSPACE: happypathway
+  TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+  
+jobs:
+  tf-doc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        id: checkout
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.2
+        with:
+          terraform_version: ${{ vars.terraform_version }}
+          cli_config_credentials_token: ${{ secrets.TFE_TOKEN }}
+          cli_config_credentials_hostname: ${{ vars.terraform_api }}
+          
+      - name: terraform init
+        run: terraform init -upgrade
+        
+      - name: Render terraform docs inside the README.md and push changes back to PR branch
+        uses: terraform-docs/gh-actions@v1.2.0
+        with:
+          working-dir: .
+          output-file: README.md
+          output-method: inject
+          git-push: "true"
+
+      # terraform-docs/gh-actions@v1.0.0 modifies .git files with owner root:root, and the following steps fail with
+      # insufficient permission for adding an object to repository database .git/objects
+      # since the expected user is runner:docker. See https://github.com/terraform-docs/gh-actions/issues/90
+      - name: Fix .git owner
+        run: sudo chown runner:docker -R .git
