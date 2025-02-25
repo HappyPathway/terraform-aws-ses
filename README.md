@@ -38,6 +38,7 @@ python scripts/init.py --debug
 This project consists of multiple repositories:
 
 - terraform-aws-cluster: morpheus-workspace::terraform-aws-cluster
+- terraform-morpheus-alb: morpheus-workspace::terraform-morpheus-alb
 - terraform-aws-efs: morpheus-workspace::terraform-aws-efs
 - terraform-aws-mq-cluster: morpheus-workspace::terraform-aws-mq-cluster
 - terraform-aws-opensearch-cluster: morpheus-workspace::terraform-aws-opensearch-cluster
